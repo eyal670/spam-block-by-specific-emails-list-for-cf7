@@ -12,14 +12,17 @@ version: 1.0
 add_filter( 'wpcf7_validate_email*', 'custom_email_confirmation_validation_filter', 20, 2 );
 function custom_email_confirmation_validation_filter( $result, $tag ) {
     $email_field = 'your-email';//the id of the email field
+    $error_msg = "This email is forbidden!";
     $spamemails = array(//array of emails to block - add as many as necessary
         "ericjonesonline@outlook.com",
         "eric@talkwithwebvisitor.com"
     );
+    
     if ( $email_field == $tag->name ) {
         $your_email = isset( $_POST[$email_field] ) ? trim( $_POST[$email_field] ) : '';
         if (in_array( $your_email , $spamemails)) {
-            $result->invalidate( $tag, "Are you sure this is the correct address?" );
+            error_log('email blocked: '.$your_email);
+            $result->invalidate( $tag,  $error_msg);
         }
     }
     return $result;
