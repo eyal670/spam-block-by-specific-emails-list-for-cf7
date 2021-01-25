@@ -17,7 +17,7 @@ function custom_email_confirmation_validation_filter( $result, $tag ) {
         "eric@talkwithwebvisitor.com"
     );
     if ( $email_field == $tag->name ) {
-        $your_email = isset( $_POST['your-email'] ) ? trim( $_POST['your-email'] ) : '';
+        $your_email = isset( $_POST[$email_field] ) ? trim( $_POST[$email_field] ) : '';
         if (in_array( $your_email , $spamemails)) {
             $result->invalidate( $tag, "Are you sure this is the correct address?" );
         }
